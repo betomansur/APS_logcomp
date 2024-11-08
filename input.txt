@@ -1,0 +1,11 @@
+tni ralof(tni n) {
+    fi (n <= 1) {
+        nruter 1;
+    } esle {
+        nruter n * ralof(n - 1);
+    }
+}
+
+tni resultado;
+resultado = ralof(5);
+ftnirp(resultado);
