@@ -71,11 +71,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int yylex();
 void yyerror(const char* s);
 
-#line 79 "invertido.tab.c"
+extern FILE *yyin;
+
+#line 82 "invertido.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -129,23 +132,30 @@ enum yysymbol_kind_t
   YYSYMBOL_ABRE_CHAVE = 23,                /* ABRE_CHAVE  */
   YYSYMBOL_FECHA_CHAVE = 24,               /* FECHA_CHAVE  */
   YYSYMBOL_PONTO_VIRGULA = 25,             /* PONTO_VIRGULA  */
-  YYSYMBOL_NUMERO = 26,                    /* NUMERO  */
-  YYSYMBOL_IDENTIFICADOR = 27,             /* IDENTIFICADOR  */
-  YYSYMBOL_YYACCEPT = 28,                  /* $accept  */
-  YYSYMBOL_programa = 29,                  /* programa  */
-  YYSYMBOL_declaracao = 30,                /* declaracao  */
-  YYSYMBOL_variavel = 31,                  /* variavel  */
-  YYSYMBOL_atribuicao = 32,                /* atribuicao  */
-  YYSYMBOL_condicional = 33,               /* condicional  */
-  YYSYMBOL_loop = 34,                      /* loop  */
-  YYSYMBOL_impressao = 35,                 /* impressao  */
-  YYSYMBOL_funcao = 36,                    /* funcao  */
-  YYSYMBOL_retorno = 37,                   /* retorno  */
-  YYSYMBOL_chamada_funcao = 38,            /* chamada_funcao  */
-  YYSYMBOL_expressao = 39,                 /* expressao  */
-  YYSYMBOL_termo = 40,                     /* termo  */
-  YYSYMBOL_fator = 41,                     /* fator  */
-  YYSYMBOL_condicao = 42                   /* condicao  */
+  YYSYMBOL_VIRGULA = 26,                   /* VIRGULA  */
+  YYSYMBOL_NUMERO = 27,                    /* NUMERO  */
+  YYSYMBOL_IDENTIFICADOR = 28,             /* IDENTIFICADOR  */
+  YYSYMBOL_STRING = 29,                    /* STRING  */
+  YYSYMBOL_YYACCEPT = 30,                  /* $accept  */
+  YYSYMBOL_programa = 31,                  /* programa  */
+  YYSYMBOL_lista_declaracoes = 32,         /* lista_declaracoes  */
+  YYSYMBOL_declaracao = 33,                /* declaracao  */
+  YYSYMBOL_variavel = 34,                  /* variavel  */
+  YYSYMBOL_atribuicao = 35,                /* atribuicao  */
+  YYSYMBOL_condicional = 36,               /* condicional  */
+  YYSYMBOL_loop = 37,                      /* loop  */
+  YYSYMBOL_impressao = 38,                 /* impressao  */
+  YYSYMBOL_funcao = 39,                    /* funcao  */
+  YYSYMBOL_parametros = 40,                /* parametros  */
+  YYSYMBOL_parametros_lista = 41,          /* parametros_lista  */
+  YYSYMBOL_retorno = 42,                   /* retorno  */
+  YYSYMBOL_chamada_funcao = 43,            /* chamada_funcao  */
+  YYSYMBOL_argumentos = 44,                /* argumentos  */
+  YYSYMBOL_argumentos_lista = 45,          /* argumentos_lista  */
+  YYSYMBOL_expressao = 46,                 /* expressao  */
+  YYSYMBOL_termo = 47,                     /* termo  */
+  YYSYMBOL_fator = 48,                     /* fator  */
+  YYSYMBOL_condicao = 49                   /* condicao  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -471,21 +481,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  2
+#define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   101
+#define YYLAST   88
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  28
+#define YYNTOKENS  30
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  15
+#define YYNNTS  20
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  34
+#define YYNRULES  45
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  81
+#define YYNSTATES  92
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   282
+#define YYMAXUTOK   284
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -527,17 +537,18 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27
+      25,    26,    27,    28,    29
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    28,    28,    29,    33,    34,    35,    36,    37,    38,
-      39,    43,    47,    51,    52,    56,    60,    64,    68,    72,
-      76,    77,    78,    82,    83,    84,    88,    89,    90,    94,
-      95,    96,    97,    98,    99
+       0,    30,    30,    33,    35,    39,    40,    41,    42,    43,
+      44,    45,    46,    50,    54,    58,    59,    63,    67,    71,
+      74,    76,    80,    81,    85,    89,    92,    94,    98,    99,
+     103,   104,   105,   109,   110,   111,   115,   116,   117,   118,
+     122,   123,   124,   125,   126,   127
 };
 #endif
 
@@ -557,10 +568,12 @@ static const char *const yytname[] =
   "VOID", "SE", "SENAO", "ENQUANTO", "IMPRIMIR", "RETORNO", "IGUAL",
   "DIFERENTE", "MAIOR", "MENOR", "MAIOR_IGUAL", "MENOR_IGUAL", "SOMA",
   "SUB", "MULT", "DIV", "ATRIBUI", "ABRE_PAR", "FECHA_PAR", "ABRE_CHAVE",
-  "FECHA_CHAVE", "PONTO_VIRGULA", "NUMERO", "IDENTIFICADOR", "$accept",
-  "programa", "declaracao", "variavel", "atribuicao", "condicional",
-  "loop", "impressao", "funcao", "retorno", "chamada_funcao", "expressao",
-  "termo", "fator", "condicao", YY_NULLPTR
+  "FECHA_CHAVE", "PONTO_VIRGULA", "VIRGULA", "NUMERO", "IDENTIFICADOR",
+  "STRING", "$accept", "programa", "lista_declaracoes", "declaracao",
+  "variavel", "atribuicao", "condicional", "loop", "impressao", "funcao",
+  "parametros", "parametros_lista", "retorno", "chamada_funcao",
+  "argumentos", "argumentos_lista", "expressao", "termo", "fator",
+  "condicao", YY_NULLPTR
 };
 
 static const char *
@@ -570,7 +583,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-24)
+#define YYPACT_NINF (-61)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -584,15 +597,16 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -24,     5,   -24,   -23,   -15,   -12,    -4,    23,   -24,   -24,
-     -24,   -24,   -24,   -24,   -24,    -3,   -10,    54,    54,    54,
-      54,    54,   -24,    21,   -24,    54,   -24,   -24,    57,    46,
-     -24,    57,    60,    38,    62,     1,    69,   -24,   -24,   -24,
-     -24,   -24,   -24,    54,    54,    54,    54,    54,    54,    16,
-     -24,   -24,    14,   -24,    46,    46,    71,   -24,   -24,    73,
-     -24,    28,    37,    39,   -24,   -24,   -24,    11,    18,    26,
-      54,    22,    77,   -24,    41,   -24,    78,   -24,   -24,    32,
-     -24
+     -61,    23,    11,   -61,    -3,     7,    12,    15,     3,    22,
+     -61,   -61,   -61,   -61,   -61,   -61,   -61,   -61,    19,    20,
+       3,     3,     3,     3,   -61,    37,   -61,   -12,    41,   -61,
+       3,     3,   -61,    43,   -61,    38,    38,   -10,    10,     3,
+       3,   -61,     3,     3,    -8,    39,    44,    47,    45,    49,
+      46,   -61,   -61,   -61,   -61,   -61,   -61,     3,     3,    50,
+     -61,    41,    41,   -61,   -61,   -61,   -61,     3,   -61,    51,
+      66,    18,    40,   -61,    47,   -61,    48,    54,    55,    56,
+     -61,   -61,   -61,   -61,    57,    58,    73,   -61,    60,   -61,
+      61,   -61
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -600,29 +614,30 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       2,     0,     1,     0,     0,     0,     0,     0,     3,     8,
-       4,     5,     6,     7,     9,     0,     0,     0,     0,     0,
-       0,     0,    10,     0,    11,     0,    26,    27,     0,    20,
-      23,     0,     0,     0,     0,     0,     0,    29,    30,    31,
-      32,    33,    34,     0,     0,     0,     0,     0,     0,     0,
-      12,    19,     0,    28,    21,    22,     0,    24,    25,     0,
-      16,     0,     0,     0,     2,     2,     2,     0,     0,     0,
-       0,     0,    13,    15,     0,    17,     0,    18,     2,     0,
-      14
+       3,     0,     2,     1,     0,     0,     0,     0,     0,     0,
+       4,     5,     6,     7,     8,     9,    10,    11,     0,     0,
+       0,     0,     0,     0,    36,    37,    39,     0,    30,    33,
+       0,    26,    12,    20,    13,     0,     0,     0,     0,     0,
+       0,    24,     0,     0,     0,     0,    27,    28,     0,     0,
+      21,    40,    41,    42,    43,    44,    45,     0,     0,     0,
+      38,    31,    32,    34,    35,    14,    25,     0,    22,     0,
+       0,     0,     0,    18,    29,     3,     0,     0,     0,     0,
+      23,     3,     3,    19,     0,     0,    15,    17,     0,     3,
+       0,    16
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -24,   -17,   -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24,
-     -24,   -18,    53,    52,    61
+     -61,   -60,   -61,   -61,   -61,   -61,   -61,   -61,   -61,   -61,
+     -61,   -61,   -61,    82,   -61,   -61,   -20,    26,    25,    52
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     1,     8,     9,    10,    11,    12,    13,    14,    71,
-      15,    28,    29,    30,    45
+       0,     1,     2,    10,    11,    12,    13,    14,    15,    16,
+      49,    50,    17,    26,    45,    46,    27,    28,    29,    57
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -630,65 +645,64 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      31,    32,    33,    34,    16,     2,    17,    36,     3,    18,
-       4,    23,     5,     6,     3,    24,     4,    19,     5,     6,
-      70,     3,    22,     4,    35,     5,     6,    56,    52,     3,
-      59,     4,     7,     5,     6,     3,    61,     4,     7,     5,
-       6,    60,    72,    20,    21,     7,    75,    67,    68,    69,
-      73,    64,    74,     7,    43,    44,    80,    43,    44,     7,
-      65,    79,    66,    50,    46,    47,    77,    37,    38,    39,
-      40,    41,    42,    43,    44,    25,    43,    44,    43,    44,
-      26,    27,    49,    76,    51,    43,    44,    43,    44,    43,
-      44,    53,    48,    62,     0,    63,    54,    55,    57,    58,
-       0,    78
+      35,    36,    37,    38,    39,    40,    39,    40,    39,    40,
+      44,    47,    59,    41,     4,    79,     5,    65,     6,     7,
+       8,    84,    85,     3,    23,    19,    39,    40,    20,    90,
+      24,    25,    60,    21,    39,    40,    22,    71,    72,     9,
+      77,    33,    30,    31,    32,    34,    48,    74,    51,    52,
+      53,    54,    55,    56,    39,    40,    39,    40,    31,    42,
+      43,    66,    78,    39,    40,    61,    62,    63,    64,    76,
+      67,    69,    70,    68,    75,    73,    80,    81,    82,    88,
+      83,    86,    87,    89,    18,    91,     0,     0,    58
 };
 
 static const yytype_int8 yycheck[] =
 {
-      18,    19,    20,    21,    27,     0,    21,    25,     3,    21,
-       5,    21,     7,     8,     3,    25,     5,    21,     7,     8,
-       9,     3,    25,     5,     3,     7,     8,    45,    27,     3,
-      48,     5,    27,     7,     8,     3,    22,     5,    27,     7,
-       8,    25,    24,    20,    21,    27,    24,    64,    65,    66,
-      24,    23,    70,    27,    16,    17,    24,    16,    17,    27,
-      23,    78,    23,    25,    18,    19,    25,    10,    11,    12,
-      13,    14,    15,    16,    17,    21,    16,    17,    16,    17,
-      26,    27,    22,     6,    22,    16,    17,    16,    17,    16,
-      17,    22,    31,    22,    -1,    22,    43,    44,    46,    47,
-      -1,    23
+      20,    21,    22,    23,    16,    17,    16,    17,    16,    17,
+      30,    31,    22,    25,     3,    75,     5,    25,     7,     8,
+       9,    81,    82,     0,    21,    28,    16,    17,    21,    89,
+      27,    28,    22,    21,    16,    17,    21,    57,    58,    28,
+      22,    21,    20,    21,    25,    25,     3,    67,    10,    11,
+      12,    13,    14,    15,    16,    17,    16,    17,    21,    18,
+      19,    22,    22,    16,    17,    39,    40,    42,    43,     3,
+      26,    22,    26,    28,    23,    25,    28,    23,    23,     6,
+      24,    24,    24,    23,     2,    24,    -1,    -1,    36
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    29,     0,     3,     5,     7,     8,    27,    30,    31,
-      32,    33,    34,    35,    36,    38,    27,    21,    21,    21,
-      20,    21,    25,    21,    25,    21,    26,    27,    39,    40,
-      41,    39,    39,    39,    39,     3,    39,    10,    11,    12,
-      13,    14,    15,    16,    17,    42,    18,    19,    42,    22,
-      25,    22,    27,    22,    40,    40,    39,    41,    41,    39,
-      25,    22,    22,    22,    23,    23,    23,    29,    29,    29,
-       9,    37,    24,    24,    39,    24,     6,    25,    23,    29,
-      24
+       0,    31,    32,     0,     3,     5,     7,     8,     9,    28,
+      33,    34,    35,    36,    37,    38,    39,    42,    43,    28,
+      21,    21,    21,    21,    27,    28,    43,    46,    47,    48,
+      20,    21,    25,    21,    25,    46,    46,    46,    46,    16,
+      17,    25,    18,    19,    46,    44,    45,    46,     3,    40,
+      41,    10,    11,    12,    13,    14,    15,    49,    49,    22,
+      22,    47,    47,    48,    48,    25,    22,    26,    28,    22,
+      26,    46,    46,    25,    46,    23,     3,    22,    22,    31,
+      28,    23,    23,    24,    31,    31,    24,    24,     6,    23,
+      31,    24
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    28,    29,    29,    30,    30,    30,    30,    30,    30,
-      30,    31,    32,    33,    33,    34,    35,    36,    37,    38,
-      39,    39,    39,    40,    40,    40,    41,    41,    41,    42,
-      42,    42,    42,    42,    42
+       0,    30,    31,    32,    32,    33,    33,    33,    33,    33,
+      33,    33,    33,    34,    35,    36,    36,    37,    38,    39,
+      40,    40,    41,    41,    42,    43,    44,    44,    45,    45,
+      46,    46,    46,    47,    47,    47,    48,    48,    48,    48,
+      49,    49,    49,    49,    49,    49
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     0,     2,     1,     1,     1,     1,     1,     1,
-       2,     3,     4,     9,    13,     9,     5,    10,     3,     4,
+       0,     2,     1,     0,     2,     1,     1,     1,     1,     1,
+       1,     1,     2,     3,     4,     9,    13,     9,     5,     8,
+       0,     1,     2,     4,     3,     4,     0,     1,     1,     3,
        1,     3,     3,     1,     3,     3,     1,     1,     3,     1,
-       1,     1,     1,     1,     1
+       1,     1,     1,     1,     1,     1
 };
 
 
@@ -1151,146 +1165,146 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* programa: %empty  */
-#line 28 "invertido.y"
-    { printf("Início da análise do programa.\n"); }
-#line 1158 "invertido.tab.c"
+  case 13: /* variavel: DECLARACAO_VAR IDENTIFICADOR PONTO_VIRGULA  */
+#line 50 "invertido.y"
+                                               { printf("Declaracao de variavel: %s\n", (yyvsp[-1].identificador)); }
+#line 1172 "invertido.tab.c"
     break;
 
-  case 11: /* variavel: DECLARACAO_VAR IDENTIFICADOR PONTO_VIRGULA  */
-#line 43 "invertido.y"
-                                               { printf("Declaração de variável: %s\n", (yyvsp[-1].identificador)); }
-#line 1164 "invertido.tab.c"
+  case 14: /* atribuicao: IDENTIFICADOR ATRIBUI expressao PONTO_VIRGULA  */
+#line 54 "invertido.y"
+                                                  { printf("Atribuicao de valor a %s.\n", (yyvsp[-3].identificador)); }
+#line 1178 "invertido.tab.c"
     break;
 
-  case 12: /* atribuicao: IDENTIFICADOR ATRIBUI expressao PONTO_VIRGULA  */
-#line 47 "invertido.y"
-                                                  { printf("Atribuição de valor a %s.\n", (yyvsp[-3].identificador)); }
-#line 1170 "invertido.tab.c"
-    break;
-
-  case 13: /* condicional: SE ABRE_PAR expressao condicao expressao FECHA_PAR ABRE_CHAVE programa FECHA_CHAVE  */
-#line 51 "invertido.y"
+  case 15: /* condicional: SE ABRE_PAR expressao condicao expressao FECHA_PAR ABRE_CHAVE programa FECHA_CHAVE  */
+#line 58 "invertido.y"
                                                                                        { printf("Condicional (if) sem else.\n"); }
-#line 1176 "invertido.tab.c"
+#line 1184 "invertido.tab.c"
     break;
 
-  case 14: /* condicional: SE ABRE_PAR expressao condicao expressao FECHA_PAR ABRE_CHAVE programa FECHA_CHAVE SENAO ABRE_CHAVE programa FECHA_CHAVE  */
-#line 52 "invertido.y"
+  case 16: /* condicional: SE ABRE_PAR expressao condicao expressao FECHA_PAR ABRE_CHAVE programa FECHA_CHAVE SENAO ABRE_CHAVE programa FECHA_CHAVE  */
+#line 59 "invertido.y"
                                                                                                                                { printf("Condicional (if-else).\n"); }
-#line 1182 "invertido.tab.c"
+#line 1190 "invertido.tab.c"
     break;
 
-  case 15: /* loop: ENQUANTO ABRE_PAR expressao condicao expressao FECHA_PAR ABRE_CHAVE programa FECHA_CHAVE  */
-#line 56 "invertido.y"
+  case 17: /* loop: ENQUANTO ABRE_PAR expressao condicao expressao FECHA_PAR ABRE_CHAVE programa FECHA_CHAVE  */
+#line 63 "invertido.y"
                                                                                              { printf("Loop (while).\n"); }
-#line 1188 "invertido.tab.c"
+#line 1196 "invertido.tab.c"
     break;
 
-  case 16: /* impressao: IMPRIMIR ABRE_PAR expressao FECHA_PAR PONTO_VIRGULA  */
-#line 60 "invertido.y"
-                                                        { printf("Impressão (print).\n"); }
-#line 1194 "invertido.tab.c"
+  case 18: /* impressao: IMPRIMIR ABRE_PAR expressao FECHA_PAR PONTO_VIRGULA  */
+#line 67 "invertido.y"
+                                                        { printf("Impressao (print).\n"); }
+#line 1202 "invertido.tab.c"
     break;
 
-  case 17: /* funcao: DECLARACAO_VAR IDENTIFICADOR ABRE_PAR DECLARACAO_VAR IDENTIFICADOR FECHA_PAR ABRE_CHAVE programa retorno FECHA_CHAVE  */
-#line 64 "invertido.y"
-                                                                                                                         { printf("Definição de função %s.\n", (yyvsp[-8].identificador)); }
-#line 1200 "invertido.tab.c"
+  case 19: /* funcao: DECLARACAO_VAR IDENTIFICADOR ABRE_PAR parametros FECHA_PAR ABRE_CHAVE programa FECHA_CHAVE  */
+#line 71 "invertido.y"
+                                                                                               { printf("Definicao de funcao %s.\n", (yyvsp[-6].identificador)); }
+#line 1208 "invertido.tab.c"
     break;
 
-  case 18: /* retorno: RETORNO expressao PONTO_VIRGULA  */
-#line 68 "invertido.y"
-                                    { printf("Retorno de função com valor: %d\n", (yyvsp[-1].inteiro)); }
-#line 1206 "invertido.tab.c"
+  case 24: /* retorno: RETORNO expressao PONTO_VIRGULA  */
+#line 85 "invertido.y"
+                                    { printf("Retorno de funcao.\n"); }
+#line 1214 "invertido.tab.c"
     break;
 
-  case 19: /* chamada_funcao: IDENTIFICADOR ABRE_PAR expressao FECHA_PAR  */
-#line 72 "invertido.y"
-                                               { printf("Chamada de função %s.\n", (yyvsp[-3].identificador)); }
-#line 1212 "invertido.tab.c"
-    break;
-
-  case 21: /* expressao: expressao SOMA termo  */
-#line 77 "invertido.y"
-                           { printf("Soma.\n"); }
-#line 1218 "invertido.tab.c"
-    break;
-
-  case 22: /* expressao: expressao SUB termo  */
-#line 78 "invertido.y"
-                          { printf("Subtração.\n"); }
-#line 1224 "invertido.tab.c"
-    break;
-
-  case 24: /* termo: termo MULT fator  */
-#line 83 "invertido.y"
-                       { printf("Multiplicação.\n"); }
-#line 1230 "invertido.tab.c"
-    break;
-
-  case 25: /* termo: termo DIV fator  */
-#line 84 "invertido.y"
-                      { printf("Divisão.\n"); }
-#line 1236 "invertido.tab.c"
-    break;
-
-  case 26: /* fator: NUMERO  */
-#line 88 "invertido.y"
-                       { printf("Número: %d\n", (yyvsp[0].inteiro)); (yyval.inteiro) = (yyvsp[0].inteiro); }
-#line 1242 "invertido.tab.c"
-    break;
-
-  case 27: /* fator: IDENTIFICADOR  */
+  case 25: /* chamada_funcao: IDENTIFICADOR ABRE_PAR argumentos FECHA_PAR  */
 #line 89 "invertido.y"
-                       { printf("Identificador: %s\n", (yyvsp[0].identificador)); (yyval.inteiro) = 0; }
-#line 1248 "invertido.tab.c"
+                                                { printf("Chamada de funcao %s.\n", (yyvsp[-3].identificador)); }
+#line 1220 "invertido.tab.c"
     break;
 
-  case 28: /* fator: ABRE_PAR expressao FECHA_PAR  */
-#line 90 "invertido.y"
-                                   { printf("Expressão entre parênteses.\n"); (yyval.inteiro) = (yyvsp[-1].inteiro); }
-#line 1254 "invertido.tab.c"
+  case 31: /* expressao: expressao SOMA termo  */
+#line 104 "invertido.y"
+                           { (yyval.inteiro) = (yyvsp[-2].inteiro) + (yyvsp[0].inteiro); printf("Resultado da soma: %d\n", (yyval.inteiro)); }
+#line 1226 "invertido.tab.c"
     break;
 
-  case 29: /* condicao: IGUAL  */
-#line 94 "invertido.y"
-                       { printf("Condição: igual.\n"); }
-#line 1260 "invertido.tab.c"
+  case 32: /* expressao: expressao SUB termo  */
+#line 105 "invertido.y"
+                          { (yyval.inteiro) = (yyvsp[-2].inteiro) - (yyvsp[0].inteiro); printf("Resultado da subtracao: %d\n", (yyval.inteiro)); }
+#line 1232 "invertido.tab.c"
     break;
 
-  case 30: /* condicao: DIFERENTE  */
-#line 95 "invertido.y"
-                       { printf("Condição: diferente.\n"); }
-#line 1266 "invertido.tab.c"
+  case 34: /* termo: termo MULT fator  */
+#line 110 "invertido.y"
+                       { (yyval.inteiro) = (yyvsp[-2].inteiro) * (yyvsp[0].inteiro); printf("Resultado da multiplicacao: %d\n", (yyval.inteiro)); }
+#line 1238 "invertido.tab.c"
     break;
 
-  case 31: /* condicao: MAIOR  */
-#line 96 "invertido.y"
-                       { printf("Condição: maior.\n"); }
-#line 1272 "invertido.tab.c"
+  case 35: /* termo: termo DIV fator  */
+#line 111 "invertido.y"
+                      { (yyval.inteiro) = (yyvsp[-2].inteiro) / (yyvsp[0].inteiro); printf("Resultado da divisao: %d\n", (yyval.inteiro)); }
+#line 1244 "invertido.tab.c"
     break;
 
-  case 32: /* condicao: MENOR  */
-#line 97 "invertido.y"
-                       { printf("Condição: menor.\n"); }
-#line 1278 "invertido.tab.c"
+  case 36: /* fator: NUMERO  */
+#line 115 "invertido.y"
+                       { (yyval.inteiro) = (yyvsp[0].inteiro); printf("Numero: %d\n", (yyval.inteiro)); }
+#line 1250 "invertido.tab.c"
     break;
 
-  case 33: /* condicao: MAIOR_IGUAL  */
-#line 98 "invertido.y"
-                       { printf("Condição: maior ou igual.\n"); }
-#line 1284 "invertido.tab.c"
+  case 37: /* fator: IDENTIFICADOR  */
+#line 116 "invertido.y"
+                       { (yyval.inteiro) = 0; printf("Identificador: %s\n", (yyvsp[0].identificador)); }
+#line 1256 "invertido.tab.c"
     break;
 
-  case 34: /* condicao: MENOR_IGUAL  */
-#line 99 "invertido.y"
-                       { printf("Condição: menor ou igual.\n"); }
-#line 1290 "invertido.tab.c"
+  case 38: /* fator: ABRE_PAR expressao FECHA_PAR  */
+#line 117 "invertido.y"
+                                   { (yyval.inteiro) = (yyvsp[-1].inteiro); printf("Expressao entre parenteses.\n"); }
+#line 1262 "invertido.tab.c"
+    break;
+
+  case 39: /* fator: chamada_funcao  */
+#line 118 "invertido.y"
+                       { (yyval.inteiro) = 0; printf("Chamada de funcao em expressao.\n"); }
+#line 1268 "invertido.tab.c"
+    break;
+
+  case 40: /* condicao: IGUAL  */
+#line 122 "invertido.y"
+                       { printf("Condicao: igual.\n"); }
+#line 1274 "invertido.tab.c"
+    break;
+
+  case 41: /* condicao: DIFERENTE  */
+#line 123 "invertido.y"
+                       { printf("Condicao: diferente.\n"); }
+#line 1280 "invertido.tab.c"
+    break;
+
+  case 42: /* condicao: MAIOR  */
+#line 124 "invertido.y"
+                       { printf("Condicao: maior.\n"); }
+#line 1286 "invertido.tab.c"
+    break;
+
+  case 43: /* condicao: MENOR  */
+#line 125 "invertido.y"
+                       { printf("Condicao: menor.\n"); }
+#line 1292 "invertido.tab.c"
+    break;
+
+  case 44: /* condicao: MAIOR_IGUAL  */
+#line 126 "invertido.y"
+                       { printf("Condicao: maior ou igual.\n"); }
+#line 1298 "invertido.tab.c"
+    break;
+
+  case 45: /* condicao: MENOR_IGUAL  */
+#line 127 "invertido.y"
+                       { printf("Condicao: menor ou igual.\n"); }
+#line 1304 "invertido.tab.c"
     break;
 
 
-#line 1294 "invertido.tab.c"
+#line 1308 "invertido.tab.c"
 
       default: break;
     }
@@ -1483,12 +1497,25 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 102 "invertido.y"
+#line 130 "invertido.y"
 
 
-
-int main() {
-    return yyparse();
+int main(int argc, char **argv) {
+    FILE *file = stdin; // Entrada padrão por padrão
+    if (argc > 1) {
+        file = fopen(argv[1], "r");
+        if (!file) {
+            perror("Nao foi possivel abrir o arquivo");
+            return 1;
+        }
+    }
+    yyin = file;
+    printf("Inicio da analise do programa.\n");
+    int resultado = yyparse();
+    if (file != stdin) {
+        fclose(file);
+    }
+    return resultado;
 }
 
 void yyerror(const char* s) {

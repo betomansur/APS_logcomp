@@ -1,0 +1,5 @@
+cd C:\Users\betoa\INSPER\LOGCOMP\APS\APS_logcomp
+flex invertido.l
+bison -d invertido.y
+gcc invertido.tab.c lex.yy.c -o invertido
+.\invertido.exe input.txt

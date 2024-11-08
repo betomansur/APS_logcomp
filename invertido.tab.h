@@ -77,8 +77,10 @@ extern int yydebug;
     ABRE_CHAVE = 278,              /* ABRE_CHAVE  */
     FECHA_CHAVE = 279,             /* FECHA_CHAVE  */
     PONTO_VIRGULA = 280,           /* PONTO_VIRGULA  */
-    NUMERO = 281,                  /* NUMERO  */
-    IDENTIFICADOR = 282            /* IDENTIFICADOR  */
+    VIRGULA = 281,                 /* VIRGULA  */
+    NUMERO = 282,                  /* NUMERO  */
+    IDENTIFICADOR = 283,           /* IDENTIFICADOR  */
+    STRING = 284                   /* STRING  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -87,12 +89,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 9 "invertido.y"
+#line 12 "invertido.y"
 
     int inteiro;
     char* identificador;
 
-#line 96 "invertido.tab.h"
+#line 98 "invertido.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
