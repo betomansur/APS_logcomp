@@ -27,3 +27,12 @@ tni multiplica(tni a, tni b) {
 tni resultado;
 resultado = multiplica(3, 4);
 ftnirp(resultado);
+```
+
+## Como Executar
+
+```bash
+flex invertido.l
+bison -d invertido.y
+gcc invertido.tab.c lex.yy.c -o invertido
+.\invertido.exe input.txt
