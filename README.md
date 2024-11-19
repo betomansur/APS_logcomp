@@ -15,19 +15,15 @@
   - `esle` → `else`
   - `ftnirp` → `printf`
 
-## Exemplo de Código
+## Exemplo de código
 
-Aqui está um exemplo de código que calcula o fatorial de um número usando a linguagem invertida:
+Uma função que multiplica dois números e imprime o resultado:
 
 ```c
-tni ralof(tni n) {
-    fi (n <= 1) {
-        nruter 1;
-    } esle {
-        nruter n * ralof(n - 1);
-    }
+tni multiplica(tni a, tni b) {
+    nruter a * b;
 }
 
 tni resultado;
-resultado = ralof(5);
+resultado = multiplica(3, 4);
 ftnirp(resultado);
